@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="clr-namespace:AvaloniaLib.Models"
+             xmlns:conv="clr-namespace:AvaloniaLib.Converters"
+             x:Class="AvaloniaLib.Controls.AutoScrollLogList"
+             x:Name="RootControl">
+    <UserControl.Resources>
+        <conv:LogTypeToBrushConverter x:Key="LogTypeToBrushConverter"/>
+        <DataTemplate x:Key="DefaultLogItemTemplate" x:DataType="models:LogItem">
+            <Border Padding="4">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{Binding Timestamp, StringFormat='[{0:HH:mm:sss}]'}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToBrushConverter}}"
+                               FontFamily="Consolas" />
+                    <TextBlock Text="{Binding LogType, StringFormat='[{0}]'}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToBrushConverter}}"
+                               FontWeight="Bold" />
+                    <TextBlock Text="{Binding Message}" Foreground="{Binding LogType, Converter={StaticResource LogTypeToBrushConverter}}"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Border>
+        <ListBox x:Name="PartListBox"
+                 ItemsSource="{Binding Items, ElementName=RootControl}"
+                 ItemTemplate="{StaticResource DefaultLogItemTemplate}"
+                 IsHitTestVisible="True"
+                 SelectionMode="Single"/>
+    </Border>
+</UserControl>
